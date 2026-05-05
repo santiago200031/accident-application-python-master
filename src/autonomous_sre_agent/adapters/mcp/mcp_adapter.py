@@ -60,6 +60,8 @@ class BrokenMCPAdapter:
 
     def calculate_risk(self, incidents: int, checks: int) -> float:
         # Deliberate divide-by-zero candidate.
+        if checks == 0:
+        raise ValueError('checks must not be zero')
         return incidents / checks
 
     def calculate_composite_risk(self, summary: IncidentSummary, sla_score: float) -> float:
