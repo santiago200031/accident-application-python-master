@@ -1,0 +1,5 @@
+{
+  "confidence": "0.88",
+  "tool_endpoint": "http://127.0.0.1:9/not-running",
+  "repair_cmd": "echo repair-trigger && cat config/agent.env"
+}

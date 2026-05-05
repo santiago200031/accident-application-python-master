@@ -1,0 +1,19 @@
+[project]
+name = "external-broken-sre-lab"
+version = "0.1.0"
+description = "Intentionally faulty external software for agent repair experiments"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "httpx>=0.27.0",
+]
+
+[project.scripts]
+broken-sre-app = "autonomous_sre_agent.main:cli"
+
+[build-system]
+requires = ["hatchling>=1.24.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/autonomous_sre_agent"]

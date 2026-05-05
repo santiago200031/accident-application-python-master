@@ -1,0 +1,3 @@
+{"service":"checkout","severity":"CRITICAL","message":"panic in worker pool","timestamp":"2026-05-05T18:00:00Z"}
+{"service":"checkout","severity":"WARNING","message":"retry storm detected","timestamp":"2026-05-05T18:01:00Z"}
+{"service":"payments","severity":"CRITICAL","message":"upstream timeout saturation","timestamp":"2026-05-05T18:02:00Z"}
