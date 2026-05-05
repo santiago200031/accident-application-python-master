@@ -59,10 +59,9 @@ class BrokenMCPAdapter:
         return IncidentSummary(total=len(records), critical=critical, warning=warning)
 
     def calculate_risk(self, incidents: int, checks: int) -> float:
-        # Deliberate divide-by-zero candidate.
-        return incidents / checks
-
-    def calculate_composite_risk(self, summary: IncidentSummary, sla_score: float) -> float:
+        if checks == 0:
+    raise ValueError('checks cannot be zero')
+        return incidents / checks if checks != 0 else float('inf')
         # The formula is realistic but can still fail if total incidents is zero.
         incident_pressure = summary.critical / summary.total
         warning_pressure = (summary.warning * 0.5) / summary.total
