@@ -8,6 +8,11 @@ dependencies = [
     "httpx>=0.27.0",
 ]
 
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+]
+
 [project.scripts]
 broken-sre-app = "autonomous_sre_agent.main:cli"
 
