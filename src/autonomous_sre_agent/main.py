@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 
+# TODO: Install the 'autonomous_sre_agent' module if it's not already installed.
 from autonomous_sre_agent.adapters.mcp.mcp_adapter import BrokenMCPAdapter
 
 
