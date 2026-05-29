@@ -36,4 +36,6 @@ class IncidentSummary:
 
 if checks == 0:
     return 0
-return incidents / checks
+if checks == 0:
+    return 0  # Or handle the case as appropriate for your logic
+    return incidents / checks
