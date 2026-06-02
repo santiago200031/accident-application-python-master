@@ -169,7 +169,7 @@ class BrokenMCPAdapter:
         if mode == "network-chaos":
             return {
                 "mode": mode,
-                "payload": self.call_remote_server("http://127.0.0.1:9/not-running"),
+        # "payload": self.call_remote_server("http://127.0.0.1:9/not-running"),
             }
 
         if mode == "none-dereference":
