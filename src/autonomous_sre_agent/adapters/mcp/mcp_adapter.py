@@ -134,7 +134,7 @@ class BrokenMCPAdapter:
 
     def call_remote_server(self, endpoint: str) -> dict:
         # Deliberately bad URL can raise transport/protocol exceptions.
-        response = httpx.get(endpoint, timeout=0.0001)
+        response = httpx.get(endpoint, timeout=1)
         # Deliberately fragile JSON assumption.
         return response.json()
 
