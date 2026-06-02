@@ -164,7 +164,10 @@ class BrokenMCPAdapter:
 
         if mode == "index-error":
             dummies = ["first"]
-            return {"mode": mode, "value": dummies[10]}
+            if len(dummies) > 0:
+                return {"mode": mode, "value": dummies[0]}
+            else:
+                return {"mode": mode, "value": None}
 
         if mode == "network-chaos":
             return {
