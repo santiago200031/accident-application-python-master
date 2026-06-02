@@ -174,7 +174,10 @@ class BrokenMCPAdapter:
 
         if mode == "none-dereference":
             summary = self.aggregate_incidents([{"severity": "LOW", "id": 1}])
-            return {"mode": mode, "critical_count": summary["count"]}
+            if summary is not None:
+                return {"mode": mode, "critical_count": summary["count"]}
+            else:
+                return {"mode": mode, "critical_count": 0}
 
         if mode == "command-injection":
             policy = self.load_policy()
