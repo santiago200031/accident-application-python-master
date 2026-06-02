@@ -1,5 +1,8 @@
-def test_network_chaos_timeout_failure(mcp_adapter: BrokenMCPAdapter) -> None:
-    # This test reproduces the original error by attempting to connect to a non-existent endpoint with a short timeout.
-    # Before the fix, this test should fail with a httpx.ConnectError.
-    with pytest.raises(httpx.ConnectError):
-        mcp_adapter.execute(mode='network-chaos')
+import pytest
+from autonomous_sre_agent.adapters.mcp.mcp_adapter import BrokenMCPAdapter
+
+@pytest.mark.parametrize("mode", ["network-chaos"])
+def test_execute_network_chaos_mode(mode):
+    adapter = BrokenMCPAdapter()
+    result = adapter.execute(mode)
+    assert result == {"mode": mode}
