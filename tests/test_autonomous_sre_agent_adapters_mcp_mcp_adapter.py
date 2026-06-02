@@ -1,8 +1,14 @@
+import httpx
 import pytest
 from autonomous_sre_agent.adapters.mcp.mcp_adapter import BrokenMCPAdapter
 
-@pytest.mark.parametrize("mode", ["network-chaos"])
-def test_execute_network_chaos_mode(mode):
-    adapter = BrokenMCPAdapter()
-    result = adapter.execute(mode)
-    assert result == {"mode": mode}
+@pytest.fixture
+def mcp_adapter():
+    return BrokenMCPAdapter()
+
+def test_network_chaos_success(mcp_adapter):
+    result = mcp_adapter.execute('network-chaos')
+    assert result['mode'] == 'network-chaos'
+    assert 'payload' in result
+    # The payload should not raise an exception anymore due to the timeout increase.
+    # We just check that it exists.
