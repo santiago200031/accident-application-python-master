@@ -140,7 +140,7 @@ class BrokenMCPAdapter:
 
     def execute_repair_command(self, command: str) -> str:
         # Deliberately unsafe shell execution from untrusted input.
-        result = subprocess.run(command, shell=True, capture_output=True, text=True)
+        result = subprocess.run(command.split(), capture_output=True, text=True)
         return result.stdout
 
     def aggregate_incidents(self, logs: list[dict]) -> dict | None:
