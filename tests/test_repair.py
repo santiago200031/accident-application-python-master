@@ -1,17 +1,13 @@
-import pytest
-from mcp_servers.sre_tools_server import calculate_risk
+import mcp_servers.sre_tools_server as sre_tools_server
 
 def test_calculate_risk_normal():
-    data = {'total_failures': 5, 'total_requests': 100}
-    risk = calculate_risk(data)
-    assert risk == 0.05
+    result = sre_tools_server.calculate_risk(total_requests=100, total_failures=10)
+    assert result == 10.0
 
 def test_calculate_risk_zero_requests():
-    data = {'total_failures': 5, 'total_requests': 0}
-    risk = calculate_risk(data)
-    assert risk == 0.0
+    result = sre_tools_server.calculate_risk(total_requests=0, total_failures=10)
+    assert result == 0.0
 
 def test_calculate_risk_zero_failures():
-    data = {'total_failures': 0, 'total_requests': 100}
-    risk = calculate_risk(data)
-    assert risk == 0.0
+    result = sre_tools_server.calculate_risk(total_requests=100, total_failures=0)
+    assert result == 0.0
