@@ -49,3 +49,8 @@ def evaluate_namespace(namespace: str, allow_list: list[str]) -> bool:
 
 def crashy_math(a: int, b: int) -> float:
     return (a * 10) / b
+
+def calculate_risk(total_requests: int, total_failures: int) -> float:
+    if total_requests == 0:
+        return 0.0
+    return total_failures / total_requests
