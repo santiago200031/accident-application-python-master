@@ -1,9 +1,9 @@
 import pytest
-from mcp_servers.sre_tools_server import calculate_risk
+from mcp_servers.sre_tools_server import crashy_math
 
 
-def test_calculate_risk_normal():
-    assert calculate_risk(10, 2) == 5.0
+def test_crashy_math_b_is_zero():
+    assert crashy_math(10, 0) == 0
 
-def test_calculate_risk_zero_denominator():
-    assert calculate_risk(10, 0) == 0
+def test_crashy_math_b_is_not_zero():
+    assert crashy_math(10, 2) == 50
