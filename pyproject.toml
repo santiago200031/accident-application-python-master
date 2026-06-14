@@ -13,6 +13,12 @@ dev = [
     "pytest>=8.0.0",
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "mcp_servers",
+]
+
 [project.scripts]
 broken-sre-app = "autonomous_sre_agent.main:cli"
 
