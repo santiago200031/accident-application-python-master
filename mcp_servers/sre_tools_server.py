@@ -48,4 +48,6 @@ def evaluate_namespace(namespace: str, allow_list: list[str]) -> bool:
 
 
 def crashy_math(a: int, b: int) -> float:
+    if b == 0:
+        return 0
     return (a * 10) / b
