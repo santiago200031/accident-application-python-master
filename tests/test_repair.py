@@ -1,13 +1,9 @@
 import pytest
-from mcp_servers.sre_tools_server import calculate_risk
+from mcp_servers.sre_tools_server import crashy_math
 
 
-def test_calculate_risk_empty_data():
-    data = []
-    result = calculate_risk(data)
-    assert result == 0
+def test_crashy_math_valid_denominator():
+    assert crashy_math(10, 2) == 50.0
 
-def test_calculate_risk_valid_data():
-    data = [{'risk': 1}, {'risk': 2}, {'risk': 3}]
-    result = calculate_risk(data)
-    assert result == 6
+def test_crashy_math_zero_denominator():
+    assert crashy_math(10, 0) == 0.0
