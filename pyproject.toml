@@ -3,7 +3,7 @@ name = "external-broken-sre-lab"
 version = "0.1.0"
 description = "Intentionally faulty external software for agent repair experiments"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12,<3.14"
 dependencies = [
     "httpx>=0.27.0",
 ]

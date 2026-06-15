@@ -2,6 +2,11 @@
 
 Intentionally broken UV-based Python app for thesis experiments.
 
+## Requirements
+
+- Python 3.12 or 3.13
+- uv
+
 The project now includes real SRE-style methods so an external agent can do non-trivial fixes:
 - incident ingestion from JSONL
 - risk scoring and action selection
