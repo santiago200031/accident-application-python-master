@@ -154,4 +154,4 @@ class BrokenMCPAdapter:
         if len(dummies) > 10:
             return {"mode": mode, "value": dummies[10]}
         else:
-            return {"mode": mode, "value": "default"}
+            return {"mode": mode, "value": None}
