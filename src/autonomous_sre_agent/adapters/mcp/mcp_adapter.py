@@ -44,8 +44,8 @@ class BrokenMCPAdapter:
         try:
             raw = Path(self.policy_path).read_text(encoding="utf-8")
         except FileNotFoundError:
-            print("Policy file not found, using default.")
-            raw = Path("config/default_policy.json").read_text(encoding="utf-8")
+            self.policy_path = 'config/default_policy.json'
+            raw = Path(self.policy_path).read_text(encoding="utf-8")
 
     def load_incidents_from_jsonl(self, incidents_path: str) -> list[dict[str, Any]]:
         records: list[dict[str, Any]] = []
