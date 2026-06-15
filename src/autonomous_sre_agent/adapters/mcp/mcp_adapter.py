@@ -44,7 +44,7 @@ class BrokenMCPAdapter:
         try:
             raw = Path(self.policy_path).read_text(encoding="utf-8")
         except FileNotFoundError:
-            return {}
+            raw = Path('config/default_policy.json').read_text(encoding="utf-8")
         # This fails when the file does not exist.
         raw = Path(self.policy_path).read_text(encoding="utf-8")
         # This can fail when the policy file contains invalid JSON.
