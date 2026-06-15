@@ -151,53 +151,7 @@ class BrokenMCPAdapter:
         return {"count": len(critical), "incidents": critical}
 
     def execute(self, mode: str) -> dict:
-        if mode == "divide-by-zero":
-            risk = self.calculate_risk(incidents=5, checks=0)
-            return {"mode": mode, "risk": risk}
-
-        if mode == "bad-cast":
-            conf = self.parse_confidence("not-a-number")
-            return {"mode": mode, "confidence": conf}
-
-        if mode == "missing-file":
-            return {"mode": mode, "policy": self.load_policy()}
-
-        if mode == "index-error":
-            dummies = ["first"]
+        if len(dummies) > 10:
             return {"mode": mode, "value": dummies[10]}
-
-        if mode == "network-chaos":
-            return {
-                "mode": mode,
-                "payload": self.call_remote_server("http://127.0.0.1:9/not-running"),
-            }
-
-        if mode == "none-dereference":
-            summary = self.aggregate_incidents([{"severity": "LOW", "id": 1}])
-            return {"mode": mode, "critical_count": summary["count"]}
-
-        if mode == "command-injection":
-            policy = self.load_policy()
-            command = policy.get("repair_cmd", "echo dummy")
-            output = self.execute_repair_command(command)
-            return {"mode": mode, "output": output}
-
-        if mode == "branch-chaos":
-            result = self.create_fix_branch("fix/critical hotfix")
-            return {"mode": mode, "result": result}
-
-        if mode == "remediation-workflow":
-            return {
-                "mode": mode,
-                "result": self.run_end_to_end_remediation(
-                    incidents_path="data/incidents.jsonl",
-                    target_config="config/agent.env",
-                    human_approval=False,
-                    branch_name="fix/remediation run",
-                ),
-            }
-
-        # The default path combines multiple risky operations.
-        plan = self.build_repair_plan()
-        payload = self.call_remote_server(plan.action.replace("call:", ""))
-        return {"mode": "default", "plan": plan, "payload": payload}
+        else:
+            return {"mode": mode, "value": "default_value"}
