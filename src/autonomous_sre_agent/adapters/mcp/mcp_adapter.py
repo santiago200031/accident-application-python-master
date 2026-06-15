@@ -59,7 +59,8 @@ class BrokenMCPAdapter:
         return IncidentSummary(total=len(records), critical=critical, warning=warning)
 
     def calculate_risk(self, incidents: int, checks: int) -> float:
-        # Deliberate divide-by-zero candidate.
+        if checks == 0:
+            return 0.0  # Or some other appropriate default value
         return incidents / checks
 
     def calculate_composite_risk(self, summary: IncidentSummary, sla_score: float) -> float:
