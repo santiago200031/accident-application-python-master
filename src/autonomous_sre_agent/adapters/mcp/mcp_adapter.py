@@ -167,9 +167,13 @@ class BrokenMCPAdapter:
             return {"mode": mode, "value": dummies[10]}
 
         if mode == "network-chaos":
+            try:
+                payload = self.call_remote_server("http://127.0.0.1:9/not-running")
+            except httpx.ConnectError as e:
+                payload = {"error": str(e)}
             return {
                 "mode": mode,
-                "payload": self.call_remote_server("http://127.0.0.1:9/not-running"),
+                "payload": payload,
             }
 
         if mode == "none-dereference":
