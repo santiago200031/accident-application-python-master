@@ -183,7 +183,7 @@ class BrokenMCPAdapter:
             return {"mode": mode, "output": output}
 
         if mode == "branch-chaos":
-            result = self.create_fix_branch("fix/critical hotfix")
+            result = self.create_fix_branch("fix/critical-hotfix")
             return {"mode": mode, "result": result}
 
         if mode == "remediation-workflow":
