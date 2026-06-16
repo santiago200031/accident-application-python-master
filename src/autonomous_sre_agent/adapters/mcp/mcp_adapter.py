@@ -121,7 +121,10 @@ class BrokenMCPAdapter:
         risk = self.calculate_composite_risk(summary, sla_score=0.85)
         action = self.select_remediation_action(risk)
         gate = self.enforce_policy_gate(action=action, human_approval=human_approval)
-        patch = self.draft_config_patch(target_config, key="MAX_RETRIES", value="5")
+        try:
+            patch = self.draft_config_patch(target_config, key="MAX_RETRIES", value="5")
+        except PermissionError as e:
+            patch = f"PermissionError: {str(e)}"
         branch = self.create_fix_branch(branch_name=branch_name)
         return {
             "summary": summary,
