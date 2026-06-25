@@ -69,8 +69,10 @@ class BrokenMCPAdapter:
         return (incident_pressure + warning_pressure) * (1.0 - sla_score)
 
     def parse_confidence(self, value: str) -> float:
-        # Deliberate parsing failure for non-numeric strings.
-        return float(value)
+        try:
+            return float(value)
+        except ValueError:
+            return 0.0
 
     def get_tool_endpoint(self, policy: dict) -> str:
         # Deliberate key lookup failure when key is missing.
