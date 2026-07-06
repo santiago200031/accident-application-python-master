@@ -8,7 +8,7 @@ import traceback
 from dataclasses import dataclass
 from typing import Any
 
-from autonomous_sre_agent.incidents import INCIDENTS, Incident
+from incident_package.incidents import INCIDENTS, Incident
 
 
 logger = logging.getLogger("broken-app")

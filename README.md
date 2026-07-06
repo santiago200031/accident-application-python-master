@@ -17,7 +17,7 @@ The project now includes real SRE-style methods so an external agent can do non-
 ## Run
 
 ```bash
-uv run broken-sre-app --mode divide-by-zero
+uv run broken-app --mode divide-by-zero
 ```
 
 ## Available failure modes
