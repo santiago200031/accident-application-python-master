@@ -16,7 +16,6 @@ dev = [
 [project.optional-dependencies]
 dev = [
     "pytest",
-    "mcp_servers",
 ]
 
 [project.scripts]
