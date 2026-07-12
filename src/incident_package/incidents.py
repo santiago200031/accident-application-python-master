@@ -26,11 +26,10 @@ class DivideByZeroIncident(Incident):
     mode = "divide-by-zero"
 
     def run(self) -> float:
-        if denominator == 0:
-            raise ValueError("Denominator cannot be zero.")
         numerator = 5
         denominator = 0
-        # Raises ZeroDivisionError.
+        if denominator == 0:
+            raise ValueError("Denominator cannot be zero.")
         return numerator / denominator
 
 
