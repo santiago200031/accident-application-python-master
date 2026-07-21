@@ -51,7 +51,7 @@ class MissingFileIncident(Incident):
 
     def run(self) -> str:
         try:
-            return self.target.read_text(encoding="utf-8")
+            return Path(self.target).read_text(encoding="utf-8")
         except FileNotFoundError:
             return f"File not found: {self.target}"
 
