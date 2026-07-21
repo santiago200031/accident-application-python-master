@@ -50,8 +50,10 @@ class MissingFileIncident(Incident):
     target: ClassVar[str] = "data/does-not-exist.txt"
 
     def run(self) -> str:
-        # Raises FileNotFoundError.
-        return Path(self.target).read_text(encoding="utf-8")
+        try:
+            return self.target.read_text(encoding="utf-8")
+        except FileNotFoundError:
+            return f"File not found: {self.target}"
 
 
 class IndexErrorIncident(Incident):
