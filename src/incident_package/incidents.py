@@ -28,7 +28,8 @@ class DivideByZeroIncident(Incident):
     def run(self) -> float:
         numerator = 5
         denominator = 0
-        # Raises ZeroDivisionError.
+        if denominator == 0:
+            return 0.0
         return numerator / denominator
 
 
