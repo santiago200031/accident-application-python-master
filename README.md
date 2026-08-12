@@ -2,6 +2,13 @@
 
 Intentionally broken UV-based Python app for thesis experiments.
 
+Project now includes layered structure closer to real service:
+
+- `repositories/` for incident catalog access
+- `services/` for risk scoring and policy decisions
+- `controllers/` for orchestration over incident execution
+- `data/incidents.jsonl` and `config/policy.json` as runtime inputs
+
 ## Requirements
 
 - Python 3.12 or 3.13
@@ -18,6 +25,7 @@ The project now includes real SRE-style methods so an external agent can do non-
 
 ```bash
 uv run broken-app --mode divide-by-zero
+uv run broken-app --mode orchestrated-workflow
 ```
 
 ## Available failure modes

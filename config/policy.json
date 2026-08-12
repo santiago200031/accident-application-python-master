@@ -1,0 +1,6 @@
+{
+  "max_allowed_risk_score": 8.0,
+  "blocked_modes": [
+    "branch-chaos"
+  ]
+}

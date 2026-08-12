@@ -6,15 +6,21 @@ import logging
 import sys
 import traceback
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
+from incident_package.controllers.incident_controller import IncidentController
 from incident_package.incidents import INCIDENTS, Incident
+from incident_package.repositories.incident_repository import IncidentRepository
+from incident_package.services.policy_gate_service import PolicyGateService
+from incident_package.services.risk_scoring_service import RiskScoringService
 
 
 logger = logging.getLogger("broken-app")
 
 
 MODE_TO_INCIDENT: dict[str, type[Incident]] = {cls.mode: cls for cls in INCIDENTS}
+ORCHESTRATED_WORKFLOW_MODE = "orchestrated-workflow"
 
 
 @dataclass
@@ -52,7 +58,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--mode",
         default=None,
-        choices=sorted(MODE_TO_INCIDENT.keys()),
+        choices=sorted([*MODE_TO_INCIDENT.keys(), ORCHESTRATED_WORKFLOW_MODE]),
         help=(
             "Run a single incident. When omitted, the program executes the "
             "full main cycle over all incidents."
@@ -64,6 +70,19 @@ def build_parser() -> argparse.ArgumentParser:
         help="Stop the cycle on the first error instead of continuing.",
     )
     return parser
+
+
+def build_default_controller() -> IncidentController:
+    project_root = Path(__file__).resolve().parents[2]
+    repository = IncidentRepository(project_root / "data" / "incidents.jsonl")
+    risk_scoring_service = RiskScoringService()
+    policy_gate_service = PolicyGateService(project_root / "config" / "policy.json")
+    return IncidentController(
+        repository=repository,
+        risk_scoring_service=risk_scoring_service,
+        policy_gate_service=policy_gate_service,
+        incident_types=MODE_TO_INCIDENT,
+    )
 
 
 def run_incident(incident: Incident) -> CycleOutcome:
@@ -133,6 +152,20 @@ def cli() -> None:
     args = build_parser().parse_args()
 
     if args.mode is not None:
+        if args.mode == ORCHESTRATED_WORKFLOW_MODE:
+            controller = build_default_controller()
+            outcomes = [controller.process_incident(incident_cls.mode) for incident_cls in INCIDENTS]
+            summary = {
+                "total": len(outcomes),
+                "blocked": sum(1 for outcome in outcomes if outcome["status"] == "blocked"),
+                "errors": sum(1 for outcome in outcomes if outcome["status"] == "error"),
+                "ok": sum(1 for outcome in outcomes if outcome["status"] == "ok"),
+                "outcomes": outcomes,
+            }
+            print(json.dumps(summary, indent=2, default=str))
+            if summary["blocked"] or summary["errors"]:
+                sys.exit(1)
+            return
         # Single-shot mode: any raised exception propagates so the caller sees
         # the raw crash.
         incident = MODE_TO_INCIDENT[args.mode]()

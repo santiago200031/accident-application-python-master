@@ -1,0 +1,5 @@
+{"incident_id":"inc-2026-001","mode":"divide-by-zero","severity":"medium","owner":"payments","service":"billing-api"}
+{"incident_id":"inc-2026-004","mode":"index-error","severity":"low","owner":"catalog","service":"search-api"}
+{"incident_id":"inc-2026-005","mode":"network-chaos","severity":"high","owner":"platform","service":"network-edge"}
+{"incident_id":"inc-2026-007","mode":"branch-chaos","severity":"critical","owner":"release","service":"git-orchestrator"}
+{"incident_id":"inc-2026-008","mode":"remediation-workflow","severity":"high","owner":"sre","service":"remediation-engine"}
