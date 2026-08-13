@@ -26,6 +26,9 @@ class DivideByZeroIncident(Incident):
     mode = "divide-by-zero"
 
     def run(self) -> float:
+        if denominator == 0:
+            return None
+        return numerator / denominator
         numerator = 5
         denominator = 0
         # Raises ZeroDivisionError.
