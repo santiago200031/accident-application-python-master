@@ -18,7 +18,9 @@ class Incident:
     mode: ClassVar[str]
 
     def run(self) -> Any:  # pragma: no cover - abstract-ish
-        raise NotImplementedError
+        if denominator == 0:
+            raise ValueError("Denominator cannot be zero")
+        return numerator / denominator
 
 
 class DivideByZeroIncident(Incident):
