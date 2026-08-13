@@ -18,6 +18,8 @@ class Incident:
     mode: ClassVar[str]
 
     def run(self) -> Any:  # pragma: no cover - abstract-ish
+        if denominator == 0:
+            raise ValueError("Denominator cannot be zero")
         raise NotImplementedError
 
 
