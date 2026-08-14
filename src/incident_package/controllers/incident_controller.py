@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from incident_package.incidents import Incident
+from incident_package.base import Incident
 from incident_package.repositories.incident_repository import IncidentRepository
 from incident_package.services.policy_gate_service import PolicyGateService
 from incident_package.services.risk_scoring_service import RiskScoringService
@@ -44,7 +44,7 @@ class IncidentController:
         incident = incident_cls()
         try:
             result = incident.run()
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             return {
                 "incident_id": record.incident_id,
                 "mode": record.mode,

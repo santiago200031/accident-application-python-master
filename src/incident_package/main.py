@@ -9,8 +9,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from incident_package.base import Incident
 from incident_package.controllers.incident_controller import IncidentController
-from incident_package.incidents import INCIDENTS, Incident
+from incident_package.registry import INCIDENTS
 from incident_package.repositories.incident_repository import IncidentRepository
 from incident_package.services.policy_gate_service import PolicyGateService
 from incident_package.services.risk_scoring_service import RiskScoringService
@@ -27,7 +28,7 @@ ORCHESTRATED_WORKFLOW_MODE = "orchestrated-workflow"
 class CycleOutcome:
     incident_id: str
     mode: str
-    status: str  # "ok" or "error"
+    status: str
     result: Any = None
     error_type: str | None = None
     error_message: str | None = None
@@ -86,37 +87,33 @@ def build_default_controller() -> IncidentController:
 
 
 def run_incident(incident: Incident) -> CycleOutcome:
-    """Execute one incident and capture the outcome without aborting the cycle."""
     logger.info(
-        "cycle-step start incident_id=%s mode=%s",
-        incident.incident_id,
+        "cycle-step start mode=%s",
         incident.mode,
     )
     try:
         result = incident.run()
-    except Exception as exc:  # noqa: BLE001 - broad by design; this app emits faults
+    except Exception as exc:
         logger.error(
-            "cycle-step error incident_id=%s mode=%s error_type=%s message=%s",
-            incident.incident_id,
+            "cycle-step error mode=%s error_type=%s message=%s",
             incident.mode,
             type(exc).__name__,
             exc,
         )
         logger.debug("cycle-step traceback:\n%s", traceback.format_exc())
         return CycleOutcome(
-            incident_id=incident.incident_id,
+            incident_id="",
             mode=incident.mode,
             status="error",
             error_type=type(exc).__name__,
             error_message=str(exc),
         )
     logger.info(
-        "cycle-step ok incident_id=%s mode=%s",
-        incident.incident_id,
+        "cycle-step ok mode=%s",
         incident.mode,
     )
     return CycleOutcome(
-        incident_id=incident.incident_id,
+        incident_id="",
         mode=incident.mode,
         status="ok",
         result=result,
@@ -124,12 +121,6 @@ def run_incident(incident: Incident) -> CycleOutcome:
 
 
 def run_cycle(fail_fast: bool = False) -> list[CycleOutcome]:
-    """Iterate over every incident class and execute it.
-
-    Every step is expected to fail (that is the whole point of this test app).
-    Failures are caught and logged so the full sequence is observable in a
-    single run.
-    """
     outcomes: list[CycleOutcome] = []
     for incident_cls in INCIDENTS:
         outcome = run_incident(incident_cls())
@@ -166,8 +157,6 @@ def cli() -> None:
             if summary["blocked"] or summary["errors"]:
                 sys.exit(1)
             return
-        # Single-shot mode: any raised exception propagates so the caller sees
-        # the raw crash.
         incident = MODE_TO_INCIDENT[args.mode]()
         result = incident.run()
         print("RESULT:", result)
@@ -182,8 +171,6 @@ def cli() -> None:
     }
     print(json.dumps(summary, indent=2, default=str))
 
-    # Non-zero exit when at least one step failed, so CI / orchestrators can
-    # detect that the fault-injection cycle ran as designed.
     if summary["errors"]:
         sys.exit(1)
 
