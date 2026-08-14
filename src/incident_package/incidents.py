@@ -26,7 +26,7 @@ class DivideByZeroIncident(Incident):
     mode = "divide-by-zero"
 
     def run(self) -> float:
-        if self.denominator == 0:
+        if self.denominator is None or self.denominator == 0:
             raise ValueError("Denominator cannot be zero")
         return self.numerator / self.denominator
 
