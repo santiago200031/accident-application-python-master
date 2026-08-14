@@ -26,10 +26,9 @@ class DivideByZeroIncident(Incident):
     mode = "divide-by-zero"
 
     def run(self) -> float:
-        numerator = 5
-        denominator = 0
-        # Raises ZeroDivisionError.
-        return numerator / denominator
+        if self.denominator == 0:
+            raise ValueError("Denominator cannot be zero")
+        return self.numerator / self.denominator
 
 
 class BadCastIncident(Incident):
