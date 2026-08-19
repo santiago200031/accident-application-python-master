@@ -1,1 +1,1 @@
-# File src/incident_package/calculator.py not found in santiago200031/accident-application-python-master
+rate = total / count if count != 0 else 0.0
