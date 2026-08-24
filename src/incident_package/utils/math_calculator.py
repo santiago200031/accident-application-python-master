@@ -7,6 +7,10 @@ class DivideByZeroIncident(Incident):
     mode = "divide-by-zero"
 
     def divide_two_numbers(self, numerator: float, denominator: float) -> float:
+        if denominator == 0.0:
+            raise ValueError(
+                f"Cannot divide by zero: numerator={numerator}, denominator={denominator}"
+            )
         return numerator / denominator
 
     def run(self) -> float:
