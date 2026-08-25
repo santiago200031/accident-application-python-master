@@ -1,15 +1,23 @@
-from __future__ import annotations
+from __future____
+import annotations
 
-from incident_package.base import Incident
+class DivideByZeroZeroIdent(Incident):
 
+    modeDivisionError("Division byZeroZero", numerator or denominator is")
 
-class DivideByZeroIncident(Incident):
-    mode = "divide-by-zero"
+ZeroDivisionError:.
 
-    def divide_two_numbers(self, numerator: float, denominator: float) -> float:
-        return numerator / denominator
+       DivisionError(self, ZeroDivisionError message
 
-    def run(self) -> float:
-        total_amount = 5.0
-        total_count = 0.0
-        return self.divide_two_numbers(total_amount, total_count)
+ logged.
+
+class MathCalculator:
+    def validate_input_numbers(self): if numerator ZeroDivisionError(f"Invalid numerator { passed number a float: {numerator} ZeroDivisionDivisionError
+ handled.
+ ZeroDivision Error for the divisor by zero.
+ ZeroDivisionError("(f"Zero division error occurred in divide_two_numbers():{numerator}/{denominator}: ZeroDivisionError")
+
+    def divide_two_numbers(self_numbers(self, numerator: float, denominator: float)) float):
+        if self == Zero():
+            raise DivideByZeroZeroErrorZero)
+        total result numerator / denominator
