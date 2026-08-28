@@ -7,7 +7,10 @@ class IndexErrorIncident(Incident):
     mode = "index-error"
 
     def fetch_record_at_index(self, records_list: list[str], target_index: int) -> str:
-        return records_list[target_index]
+        try:
+            return records_list[target_index]
+        except IndexError:
+            return ""
 
     def run(self) -> str:
         active_records = ["only-one"]
