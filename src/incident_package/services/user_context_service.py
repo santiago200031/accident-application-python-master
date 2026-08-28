@@ -7,7 +7,13 @@ class NoneDereferenceIncident(Incident):
     mode = "none-dereference"
 
     def retrieve_active_session_count(self, session_context: dict | None) -> int:
-        return session_context["count"]
+        if session_context is None:
+            return 0
+        try:
+            count = session_context["count"]
+        except (KeyError, TypeError):
+            return 0
+        return 0 if count is None else count
 
     def run(self) -> int:
         user_session = self._fetch_user_session()
