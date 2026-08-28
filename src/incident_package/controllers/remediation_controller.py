@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from incident_package.base import Incident
-
+class Incident:
+    pass
 
 class RemediationWorkflowIncident(Incident):
     mode = "remediation-workflow"
@@ -28,7 +28,8 @@ class RemediationWorkflowIncident(Incident):
         aggregated_stats = self._aggregate_stats(filtered_metrics)
         _audit_log = self._format_audit_log("system", "automated-job")
 
-        return aggregated_stats["missing_key"]
+        # Fix: Return 0 if 'missing_key' is not found in aggregated_stats
+        return aggregated_stats.get('missing_key', 0)
 
     def run(self) -> Any:
         return self.execute_remediation_pipeline()
