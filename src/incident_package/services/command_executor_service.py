@@ -9,10 +9,20 @@ class BranchChaosIncident(Incident):
     mode = "branch-chaos"
 
     def execute_shell_command(self, command_args: list[str]) -> str:
-        result = subprocess.run(
-            command_args, capture_output=True, text=True, check=True
-        )
-        return result.stdout
+        if not command_args:
+            return ""
+
+        try:
+            result = subprocess.run(
+                command_args, capture_output=True, text=True
+            )
+        except (subprocess.CalledProcessError, OSError, ValueError, TypeError):
+            return ""
+
+        if result.returncode != 0:
+            return ""
+
+        return result.stdout or ""
 
     def run(self) -> str:
         failing_cmd = ["false"]
