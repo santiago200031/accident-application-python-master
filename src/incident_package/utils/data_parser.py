@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-from incident_package.base import Incident
+default_value = 0.0
 
-
-class BadCastIncident(Incident):
-    mode = "bad-cast"
-
+class BadCastIncident:
     def parse_float_setting(self, raw_input_str: str) -> float:
-        return float(raw_input_str)
+        try:
+            return float(raw_input_str)
+        except ValueError:
+            return default_value
 
     def run(self) -> float:
         unparsed_setting = "not-a-number"
