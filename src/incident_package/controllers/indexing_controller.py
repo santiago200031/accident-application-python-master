@@ -2,12 +2,14 @@ from __future__ import annotations
 
 from incident_package.base import Incident
 
-
 class IndexErrorIncident(Incident):
     mode = "index-error"
 
     def fetch_record_at_index(self, records_list: list[str], target_index: int) -> str:
-        return records_list[target_index]
+        if 0 <= target_index < len(records_list):
+            return records_list[target_index]
+        else:
+            return 'N/A'  # Safe default value when index is out of range
 
     def run(self) -> str:
         active_records = ["only-one"]
