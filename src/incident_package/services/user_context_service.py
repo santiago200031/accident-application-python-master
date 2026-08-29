@@ -2,11 +2,12 @@ from __future__ import annotations
 
 from incident_package.base import Incident
 
-
 class NoneDereferenceIncident(Incident):
     mode = "none-dereference"
 
     def retrieve_active_session_count(self, session_context: dict | None) -> int:
+        if session_context is None:
+            return 0
         return session_context["count"]
 
     def run(self) -> int:
