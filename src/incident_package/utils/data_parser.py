@@ -2,12 +2,15 @@ from __future__ import annotations
 
 from incident_package.base import Incident
 
-
 class BadCastIncident(Incident):
     mode = "bad-cast"
 
     def parse_float_setting(self, raw_input_str: str) -> float:
-        return float(raw_input_str)
+        try:
+            return float(raw_input_str)
+        except ValueError:
+            # Handle the case where the string cannot be converted to a float.
+            return 0.0
 
     def run(self) -> float:
         unparsed_setting = "not-a-number"
