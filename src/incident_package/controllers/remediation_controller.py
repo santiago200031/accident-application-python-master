@@ -28,7 +28,7 @@ class RemediationWorkflowIncident(Incident):
         aggregated_stats = self._aggregate_stats(filtered_metrics)
         _audit_log = self._format_audit_log("system", "automated-job")
 
-        return aggregated_stats["missing_key"]
+        return aggregated_stats.get("missing_key", 0)
 
     def run(self) -> Any:
         return self.execute_remediation_pipeline()
