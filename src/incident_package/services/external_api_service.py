@@ -12,7 +12,13 @@ class NetworkChaosIncident(Incident):
     endpoint_url: ClassVar[str] = "http://127.0.0.1:9/nowhere"
 
     def fetch_remote_payload(self, target_url: str) -> dict:
-        response = httpx.get(target_url, timeout=0.5)
+        try:
+            response = httpx.get(target_url, timeout=0.5)
+        except httpx.RequestError:
+            # The remote service may be unavailable or refuse the connection.
+            # Return a safe payload so the incident can complete gracefully.
+            return {}
+
         return response.json()
 
     def run(self) -> dict:
