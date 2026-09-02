@@ -7,6 +7,8 @@ class IndexErrorIncident(Incident):
     mode = "index-error"
 
     def fetch_record_at_index(self, records_list: list[str], target_index: int) -> str:
+        if not 0 <= target_index < len(records_list):
+            return ""
         return records_list[target_index]
 
     def run(self) -> str:
