@@ -1,9 +1,8 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Dict
 
 from incident_package.base import Incident
-
 
 class RemediationWorkflowIncident(Incident):
     mode = "remediation-workflow"
@@ -11,7 +10,7 @@ class RemediationWorkflowIncident(Incident):
     def validate_pipeline_config(self, config: dict[str, Any]) -> bool:
         return bool(config.get("enabled", True))
 
-    def fetch_cluster_health(self) -> dict[str, str]:
+    def fetch_cluster_health(self) -> Dict[str, str]:
         return {"status": "healthy", "nodes": "3/3"}
 
     def execute_remediation_pipeline(self) -> Any:
@@ -28,23 +27,24 @@ class RemediationWorkflowIncident(Incident):
         aggregated_stats = self._aggregate_stats(filtered_metrics)
         _audit_log = self._format_audit_log("system", "automated-job")
 
-        return aggregated_stats["missing_key"]
+        # Fix: Check if 'missing_key' exists before accessing it
+        return aggregated_stats.get('missing_key', 0)
 
     def run(self) -> Any:
         return self.execute_remediation_pipeline()
 
     @staticmethod
-    def _load_initial_metrics() -> list[dict[str, int]]:
+    def _load_initial_metrics() -> list[Dict[str, int]]:
         return [{"value": 10}, {"value": 20}, {"value": 30}]
 
     @staticmethod
-    def _filter_valid_metrics(rows: list[dict[str, int]]) -> list[dict[str, int]]:
+    def _filter_valid_metrics(rows: list[Dict[str, int]]) -> list[Dict[str, int]]:
         return [row for row in rows if row.get("value", 0) > 0]
 
     @staticmethod
-    def _aggregate_stats(metric_rows: list[dict[str, int]]) -> dict[str, int]:
+    def _aggregate_stats(metric_rows: list[Dict[str, int]]) -> Dict[str, int]:
         return {"total": sum(row["value"] for row in metric_rows)}
 
     @staticmethod
-    def _format_audit_log(user: str, action: str) -> dict[str, str]:
+    def _format_audit_log(user: str, action: str) -> Dict[str, str]:
         return {"user": user, "action": action, "status": "initiated"}
