@@ -4,7 +4,6 @@ from typing import Any
 
 from incident_package.base import Incident
 
-
 class RemediationWorkflowIncident(Incident):
     mode = "remediation-workflow"
 
@@ -28,7 +27,8 @@ class RemediationWorkflowIncident(Incident):
         aggregated_stats = self._aggregate_stats(filtered_metrics)
         _audit_log = self._format_audit_log("system", "automated-job")
 
-        return aggregated_stats["missing_key"]
+        # Fix: Check if 'missing_key' exists in aggregated_stats before accessing it
+        return aggregated_stats.get('missing_key', 0)
 
     def run(self) -> Any:
         return self.execute_remediation_pipeline()
