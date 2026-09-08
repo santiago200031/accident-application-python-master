@@ -1,0 +1,188 @@
+{
+  "schemaId": "azureMonitorCommonAlertSchema",
+  "data": {
+    "essentials": {
+      "alertId": "/subscriptions/SUBSCRIPTION_ID/resourceGroups/secp-custa-dev/providers/Microsoft.OperationalInsights/workspaces/law-custdemo-dev-swc-001/providers/Microsoft.AlertsManagement/alerts/8969f238-0baa-44b6-b048-70e8288cb788",
+      "alertRule": "alert-custa-loganalytics-errors",
+      "severity": "Sev1",
+      "signalType": "Log",
+      "monitorCondition": "Fired",
+      "monitoringService": "Log Alerts V2",
+      "alertTargetIDs": [
+        "/subscriptions/SUBSCRIPTION_ID/resourceGroups/secp-custa-dev/providers/Microsoft.OperationalInsights/workspaces/law-custdemo-dev-swc-001"
+      ],
+      "originAlertId": "e1f62675-1d2b-47ae-9b5c-35a838ce4878",
+      "firedDateTime": "2026-09-08T17:34:56.7474456Z",
+      "resolvedDateTime": null,
+      "description": "Customer-A Log Analytics alerts (ContainerAppConsoleLogs, AppExceptions, AppTraces)",
+      "essentialsVersion": "1.0",
+      "alertContextVersion": "1.0"
+    },
+    "alertContext": {
+      "properties": {
+        "customProperties": {
+          "log_level": "WARNING",
+          "service_id": "ca-custdemo-dev-swc-backend"
+        },
+        "query": "union (ContainerAppConsoleLogs_CL | where ContainerAppName_s startswith 'ca-custademo' and (Log_s has 'ERROR' or Log_s has 'WARNING' or Log_s has 'Exception' or Log_s has 'Traceback') | project TimeGenerated, Message=Log_s, Source='ContainerAppConsoleLogs'), (AppExceptions | project TimeGenerated, Message=InnermostMessage, Source='AppExceptions'), (AppTraces | where SeverityLevel >= 2 | project TimeGenerated, Message=Message, Source='AppTraces') | summarize AggregatedValue=count() by bin(TimeGenerated, 5m)",
+        "resultCount": 21,
+        "linkToSearchResults": "https://portal.azure.com#@TENANT_ID/blade/Microsoft_Azure_Monitoring_Logs/LogsBlade/resourceId/%2Fsubscriptions%2FSUBSCRIPTION_ID%2FresourceGroups%2Fsecp-custa-dev%2Fproviders%2FMicrosoft.OperationalInsights%2Fworkspaces%2Flaw-custdemo-dev-swc-001",
+        "linkToFilteredSearchResultsUI": "https://portal.azure.com#@TENANT_ID/blade/Microsoft_Azure_Monitoring_Logs/LogsBlade/source/Alerts.EmailLinks/scope/%7B%22resources%22%3A%5B%7B%22resourceId%22%3A%22/subscriptions/SUBSCRIPTION_ID/resourceGroups/secp-custa-dev/providers/Microsoft.OperationalInsights/workspaces/law-custdemo-dev-swc-001%22%7D%5D%7D",
+        "linkToSearchResultsAPI": "https://api.loganalytics.io/v1/workspaces/WORKSPACE_ID/query",
+        "linkToFilteredSearchResultsAPI": "https://api.loganalytics.io/v1/workspaces/WORKSPACE_ID/query",
+        "searchIntervalStartTimeUtc": "2026-09-08T17:29:56.0000000Z",
+        "searchIntervalEndtimeUtc": "2026-09-08T17:34:56.0000000Z",
+        "alertSearchResults": {
+          "tables": [
+            {
+              "name": "PrimaryResult",
+              "columns": [
+                {
+                  "name": "TimeGenerated",
+                  "type": "datetime"
+                },
+                {
+                  "name": "Message",
+                  "type": "string"
+                },
+                {
+                  "name": "Source",
+                  "type": "string"
+                }
+              ],
+              "rows": [
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "2026-09-08 17:43:17,407 - uvicorn.error - ERROR - Exception in ASGI application",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "Traceback (most recent call last):",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "  File \"/app/.venv/lib/python3.12/site-packages/uvicorn/protocols/http/h11_impl.py\", line 403, in run_asgi",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "  File \"/app/.venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py\", line 60, in __call__",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "  File \"/app/.venv/lib/python3.12/site-packages/fastapi/applications.py\", line 1054, in __call__",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "  File \"/app/.venv/lib/python3.12/site-packages/starlette/applications.py\", line 113, in __call__",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "  File \"/app/.venv/lib/python3.12/site-packages/starlette/middleware/errors.py\", line 186, in __call__",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "  File \"/app/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py\", line 42, in wrapped_app",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "  File \"/app/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py\", line 53, in wrapped_app",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "  File \"/app/.venv/lib/python3.12/site-packages/starlette/routing.py\", line 732, in app",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "  File \"/app/main.py\", line 2138, in query_requirements_http",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "    data = await req.json()",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "  File \"/app/.venv/lib/python3.12/site-packages/starlette/requests.py\", line 244, in json",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "    return json.loads(await self.body())",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "  File \"/usr/local/lib/python3.12/json/__init__.py\", line 346, in loads",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "    return _default_decoder.decode(s)",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "  File \"/usr/local/lib/python3.12/json/decoder.py\", line 345, in decode",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "    obj, end = self.raw_decode(s, idx=_w(s, 0).end())",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "  File \"/usr/local/lib/python3.12/json/decoder.py\", line 363, in raw_decode",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "    raise JSONDecodeError(\"Expecting value\", s, err.value) from None",
+                  "ContainerAppConsoleLogs"
+                ],
+                [
+                  "2026-09-08T17:43:17.4Z",
+                  "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+                  "ContainerAppConsoleLogs"
+                ]
+              ]
+            }
+          ]
+        }
+      },
+      "conditionType": "LogQueryCriteria",
+      "condition": {
+        "windowSize": "PT5M",
+        "allOf": [
+          {
+            "searchQuery": "union (ContainerAppConsoleLogs_CL | where ContainerAppName_s startswith 'ca-custademo' and (Log_s has 'ERROR' or Log_s has 'WARNING' or Log_s has 'Exception' or Log_s has 'Traceback') | project TimeGenerated, Message=Log_s, Source='ContainerAppConsoleLogs'), (AppExceptions | project TimeGenerated, Message=InnermostMessage, Source='AppExceptions'), (AppTraces | where SeverityLevel >= 2 | project TimeGenerated, Message=Message, Source='AppTraces') | summarize AggregatedValue=count() by bin(TimeGenerated, 5m)",
+            "metricMeasureColumn": null,
+            "targetResourceTypes": "microsoft.operationalinsights/workspaces",
+            "operator": "GreaterThan",
+            "threshold": "0",
+            "timeAggregation": "Count",
+            "dimensions": [],
+            "metricValue": 21,
+            "failingPeriods": {
+              "minFailingPeriodsToAlert": 1,
+              "numberOfEvaluationPeriods": 1
+            }
+          }
+        ],
+        "windowStartTime": "2026-09-08T17:29:56.0000000Z",
+        "windowEndTime": "2026-09-08T17:34:56.0000000Z"
+      }
+    }
+  }
+}

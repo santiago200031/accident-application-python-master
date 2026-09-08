@@ -22,6 +22,14 @@ from incident_package.controllers.alert_deduplicator_controller import Duplicate
 from incident_package.services.api_boundary_service import ServiceErrorBoundaryIncident
 from incident_package.utils.telemetry_metric_calculator import MetricRateZeroDivisionIncident
 
+# Anonymized Customer Exception Scenarios (C1 to C6)
+from incident_package.customer_exceptions.broken_alert_scoping import BrokenAlertScopingIncident
+from incident_package.customer_exceptions.malformed_json_body import MalformedJsonBodyIncident
+from incident_package.customer_exceptions.none_dereference_missing_doc import NoneDereferenceMissingDocIncident
+from incident_package.customer_exceptions.nosql_injection import NosqlInjectionIncident
+from incident_package.customer_exceptions.path_traversal_idor import PathTraversalIdorIncident
+from incident_package.customer_exceptions.unauthenticated_api import UnauthenticatedApiIncident
+
 SYNTHETIC_INCIDENTS: list[type[Incident]] = [
     DivideByZeroIncident,
     BadCastIncident,
@@ -44,4 +52,13 @@ REAL_INCIDENTS: list[type[Incident]] = [
     MetricRateZeroDivisionIncident,
 ]
 
-INCIDENTS: list[type[Incident]] = SYNTHETIC_INCIDENTS + REAL_INCIDENTS
+CUSTOMER_INCIDENTS: list[type[Incident]] = [
+    UnauthenticatedApiIncident,
+    MalformedJsonBodyIncident,
+    PathTraversalIdorIncident,
+    NosqlInjectionIncident,
+    NoneDereferenceMissingDocIncident,
+    BrokenAlertScopingIncident,
+]
+
+INCIDENTS: list[type[Incident]] = SYNTHETIC_INCIDENTS + REAL_INCIDENTS + CUSTOMER_INCIDENTS

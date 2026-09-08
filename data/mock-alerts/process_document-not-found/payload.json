@@ -1,0 +1,88 @@
+{
+  "schemaId": "azureMonitorCommonAlertSchema",
+  "data": {
+    "essentials": {
+      "alertId": "/subscriptions/SUBSCRIPTION_ID/resourceGroups/secp-custa-dev/providers/Microsoft.OperationalInsights/workspaces/law-custdemo-dev-swc-001/providers/Microsoft.AlertsManagement/alerts/594dffe5-9caf-4636-be0d-f1f714758d2a",
+      "alertRule": "alert-custa-loganalytics-errors",
+      "severity": "Sev1",
+      "signalType": "Log",
+      "monitorCondition": "Fired",
+      "monitoringService": "Log Alerts V2",
+      "alertTargetIDs": [
+        "/subscriptions/SUBSCRIPTION_ID/resourceGroups/secp-custa-dev/providers/Microsoft.OperationalInsights/workspaces/law-custdemo-dev-swc-001"
+      ],
+      "originAlertId": "5961f6e5-019c-4f0d-8b2a-eb4956978b56",
+      "firedDateTime": "2026-09-08T17:34:56.7474456Z",
+      "resolvedDateTime": null,
+      "description": "Customer-A Log Analytics alerts (ContainerAppConsoleLogs, AppExceptions, AppTraces)",
+      "essentialsVersion": "1.0",
+      "alertContextVersion": "1.0"
+    },
+    "alertContext": {
+      "properties": {
+        "customProperties": {
+          "log_level": "WARNING",
+          "service_id": "ca-custdemo-dev-swc-backend"
+        },
+        "query": "union (ContainerAppConsoleLogs_CL | where ContainerAppName_s startswith 'ca-custademo' and (Log_s has 'ERROR' or Log_s has 'WARNING' or Log_s has 'Exception' or Log_s has 'Traceback') | project TimeGenerated, Message=Log_s, Source='ContainerAppConsoleLogs'), (AppExceptions | project TimeGenerated, Message=InnermostMessage, Source='AppExceptions'), (AppTraces | where SeverityLevel >= 2 | project TimeGenerated, Message=Message, Source='AppTraces') | summarize AggregatedValue=count() by bin(TimeGenerated, 5m)",
+        "resultCount": 1,
+        "linkToSearchResults": "https://portal.azure.com#@TENANT_ID/blade/Microsoft_Azure_Monitoring_Logs/LogsBlade/resourceId/%2Fsubscriptions%2FSUBSCRIPTION_ID%2FresourceGroups%2Fsecp-custa-dev%2Fproviders%2FMicrosoft.OperationalInsights%2Fworkspaces%2Flaw-custdemo-dev-swc-001",
+        "linkToFilteredSearchResultsUI": "https://portal.azure.com#@TENANT_ID/blade/Microsoft_Azure_Monitoring_Logs/LogsBlade/source/Alerts.EmailLinks/scope/%7B%22resources%22%3A%5B%7B%22resourceId%22%3A%22/subscriptions/SUBSCRIPTION_ID/resourceGroups/secp-custa-dev/providers/Microsoft.OperationalInsights/workspaces/law-custdemo-dev-swc-001%22%7D%5D%7D",
+        "linkToSearchResultsAPI": "https://api.loganalytics.io/v1/workspaces/WORKSPACE_ID/query",
+        "linkToFilteredSearchResultsAPI": "https://api.loganalytics.io/v1/workspaces/WORKSPACE_ID/query",
+        "searchIntervalStartTimeUtc": "2026-09-08T17:29:56.0000000Z",
+        "searchIntervalEndtimeUtc": "2026-09-08T17:34:56.0000000Z",
+        "alertSearchResults": {
+          "tables": [
+            {
+              "name": "PrimaryResult",
+              "columns": [
+                {
+                  "name": "TimeGenerated",
+                  "type": "datetime"
+                },
+                {
+                  "name": "Message",
+                  "type": "string"
+                },
+                {
+                  "name": "Source",
+                  "type": "string"
+                }
+              ],
+              "rows": [
+                [
+                  "2026-09-08T17:43:21.6Z",
+                  "Error retrieving all documents: (NotFound) Message: {\\\"Errors\\\":[\\\"Resource Not Found. Learn more: https://aka.ms/cosmosdb-tsg-not-found\\\"]} ActivityId: d628e84b-a23a-493d-ae3b-cbf3d8d955a7",
+                  "ContainerAppConsoleLogs"
+                ]
+              ]
+            }
+          ]
+        }
+      },
+      "conditionType": "LogQueryCriteria",
+      "condition": {
+        "windowSize": "PT5M",
+        "allOf": [
+          {
+            "searchQuery": "union (ContainerAppConsoleLogs_CL | where ContainerAppName_s startswith 'ca-custademo' and (Log_s has 'ERROR' or Log_s has 'WARNING' or Log_s has 'Exception' or Log_s has 'Traceback') | project TimeGenerated, Message=Log_s, Source='ContainerAppConsoleLogs'), (AppExceptions | project TimeGenerated, Message=InnermostMessage, Source='AppExceptions'), (AppTraces | where SeverityLevel >= 2 | project TimeGenerated, Message=Message, Source='AppTraces') | summarize AggregatedValue=count() by bin(TimeGenerated, 5m)",
+            "metricMeasureColumn": null,
+            "targetResourceTypes": "microsoft.operationalinsights/workspaces",
+            "operator": "GreaterThan",
+            "threshold": "0",
+            "timeAggregation": "Count",
+            "dimensions": [],
+            "metricValue": 1,
+            "failingPeriods": {
+              "minFailingPeriodsToAlert": 1,
+              "numberOfEvaluationPeriods": 1
+            }
+          }
+        ],
+        "windowStartTime": "2026-09-08T17:29:56.0000000Z",
+        "windowEndTime": "2026-09-08T17:34:56.0000000Z"
+      }
+    }
+  }
+}
