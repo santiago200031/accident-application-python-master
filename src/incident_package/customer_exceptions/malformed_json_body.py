@@ -4,19 +4,21 @@ import json
 from typing import Any
 from incident_package.base import Incident
 
-
 def query_requirements_http(body: str) -> dict[str, Any]:
     """Route handler that parses the request JSON with no guard."""
-    # BUG (Anonymized C2): await req.json() without try/except -> JSONDecodeError
-    data = json.loads(body)
-    return {"status": 200, "query": data.get("query")}
-
+    try:
+        data = json.loads(body)
+        return {"status": 200, "query": data.get("query")}
+    except json.JSONDecodeError:
+        return {"status": 400, "message": "Malformed JSON body"}
 
 def delete_documents_http(body: str) -> dict[str, Any]:
     # BUG (Anonymized C2): same unguarded parse on a second endpoint
-    data = json.loads(body)
-    return {"status": 200, "partition_key": data.get("partition_key")}
-
+    try:
+        data = json.loads(body)
+        return {"status": 200, "partition_key": data.get("partition_key")}
+    except json.JSONDecodeError:
+        return {"status": 400, "message": "Malformed JSON body"}
 
 class MalformedJsonBodyIncident(Incident):
     mode = "cust-c2-malformed-json"
