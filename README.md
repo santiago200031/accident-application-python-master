@@ -1,6 +1,6 @@
 # Benchmark Target Service (`accident-application-python-master`)
 
-This repository serves as the intentionally flawed Python microservice used as the empirical evaluation target for the Master's thesis *Safe Autonomous Incident Resolution Agent (SAIRA)*.
+This repository contains the intentionally flawed Python microservice used as the empirical evaluation target for the Master's thesis *Safe Autonomous Incident Resolution Agent (SAIRA)*.
 
 It is delivered in its intentionally unpatched baseline state. External autonomous agents inspect the service's runtime error logs, clone the repository, generate tests-first verification suites, synthesize corrective patches, and open pull requests for human review.
 
