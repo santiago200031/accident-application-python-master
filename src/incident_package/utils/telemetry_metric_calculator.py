@@ -4,8 +4,14 @@ from incident_package.base import Incident
 
 
 def compute_incident_resolution_rate(resolved_incidents: int, total_alerts: int) -> float:
-    """Calculates resolution percentage."""
-    # BUG (Anonymized from PR #67): ZeroDivisionError when total_alerts is 0
+    """Calculate the percentage of alerts resolved.
+
+    Empty reporting windows have no alerts to resolve, so their resolution rate
+    is reported as ``0.0``.
+    """
+    if total_alerts == 0:
+        return 0.0
+
     return (resolved_incidents / total_alerts) * 100.0
 
 
