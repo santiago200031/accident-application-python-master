@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import Any
+
 from incident_package.base import Incident
 
 
@@ -10,8 +11,8 @@ class MockBlobContainerClient:
 
     def create_container(self, name: str) -> dict[str, Any]:
         if name in self.containers:
-            # BUG (Anonymized from PR #110): Conflict when creating pre-existing container
-            raise FileExistsError(f"Container '{name}' already exists in storage account.")
+            return {"created": False, "container": name}
+
         self.containers.add(name)
         return {"created": True, "container": name}
 
@@ -26,5 +27,5 @@ class StorageContainerConflictIncident(Incident):
         return self.client.create_container(container_name)
 
     def run(self) -> dict[str, Any]:
-        # Tries to recreate the pre-existing container 'telemetry-archive'
+        # Safely reuses the pre-existing telemetry archive container.
         return self.ensure_container("telemetry-archive")
