@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Any
 from incident_package.base import Incident
 
-
 def process_inbound_route(payload: dict[str, Any]) -> dict[str, Any]:
     """Inner route handler."""
     if not payload.get("authorized"):
@@ -11,12 +10,13 @@ def process_inbound_route(payload: dict[str, Any]) -> dict[str, Any]:
         raise PermissionError("Access denied to requested service resource")
     return {"status": 200, "data": payload}
 
-
 def service_error_boundary(payload: dict[str, Any]) -> dict[str, Any]:
     """Global service boundary wrapper."""
-    # Missing try/except boundary: leaks unformatted exception to external callers
-    return process_inbound_route(payload)
-
+    try:
+        return process_inbound_route(payload)
+    except PermissionError as e:
+        # Handle the PermissionError gracefully
+        return {"status": 403, "message": str(e)}
 
 class ServiceErrorBoundaryIncident(Incident):
     mode = "real-api-boundary"
