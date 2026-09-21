@@ -11,7 +11,10 @@ class MissingFileIncident(Incident):
     target_filepath: ClassVar[str] = "data/incident-file.txt"
 
     def load_configuration_file(self, config_path: str) -> str:
-        return Path(config_path).read_text(encoding="utf-8")
+        try:
+            return Path(config_path).read_text(encoding="utf-8")
+        except FileNotFoundError:
+            return ""
 
     def run(self) -> str:
         return self.load_configuration_file(self.target_filepath)
