@@ -16,16 +16,18 @@ class DocumentStore:
         return self.documents.get(document_id)
 
 
-def process_document(document_id: str, store: DocumentStore) -> str:
+def process_document(document_id: str, store: DocumentStore) -> str | None:
     doc = store.get_doc_int_result(document_id)
-    # BUG (Anonymized C5): direct .get("filename") on a possibly-None result
+    if doc is None:
+        return None
+
     return doc.get("filename")
 
 
 class NoneDereferenceMissingDocIncident(Incident):
     mode = "cust-c5-none-deref-missing-doc"
 
-    def run(self) -> str:
+    def run(self) -> str | None:
         store = DocumentStore()
         # document_id does not exist -> get_doc_int_result returns None
         return process_document("doc-nonexistent", store)
