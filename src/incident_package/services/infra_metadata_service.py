@@ -1,13 +1,29 @@
 from __future__ import annotations
 
 from typing import Any
+
 from incident_package.base import Incident
 
 
 def resolve_infrastructure_host(outputs: dict[str, Any] | None) -> str:
-    """Resolves primary host from Terraform state outputs."""
-    # BUG (Anonymized from PR #82): Fails when outputs is None or 'primary_endpoint' is null
-    return outputs["primary_endpoint"]["value"]["fqdn"]
+    """Resolve the primary host from Terraform state outputs.
+
+    Returns an empty string when Terraform has not produced a usable primary
+    endpoint yet, such as during pipeline startup or optional provisioning.
+    """
+    if not isinstance(outputs, dict):
+        return ""
+
+    primary_endpoint = outputs.get("primary_endpoint")
+    if not isinstance(primary_endpoint, dict):
+        return ""
+
+    value = primary_endpoint.get("value")
+    if not isinstance(value, dict):
+        return ""
+
+    fqdn = value.get("fqdn")
+    return fqdn if isinstance(fqdn, str) else ""
 
 
 class NullInfraOutputIncident(Incident):
