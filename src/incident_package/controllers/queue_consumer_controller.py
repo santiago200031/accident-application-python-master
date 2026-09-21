@@ -4,13 +4,14 @@ import json
 from typing import Any
 from incident_package.base import Incident
 
-
 def process_queue_message(raw_payload: str) -> dict[str, Any]:
     """Parses incoming message from storage queue without schema validation."""
-    # BUG (Anonymized from PR #79/#81): Missing exception guard against corrupted/non-JSON queue payloads
-    parsed = json.loads(raw_payload)
-    return {"status": "processed", "id": parsed["message_id"], "body": parsed["payload"]}
-
+    try:
+        parsed = json.loads(raw_payload)
+        return {"status": "processed", "id": parsed["message_id"], "body": parsed["payload"]}
+    except json.JSONDecodeError:
+        # Handle the case where the payload is not valid JSON
+        return {"status": "error", "id": 0, "body": "Invalid JSON payload"}
 
 class MalformedQueuePayloadIncident(Incident):
     mode = "real-malformed-queue"
