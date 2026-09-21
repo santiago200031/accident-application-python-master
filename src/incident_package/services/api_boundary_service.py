@@ -7,15 +7,26 @@ from incident_package.base import Incident
 def process_inbound_route(payload: dict[str, Any]) -> dict[str, Any]:
     """Inner route handler."""
     if not payload.get("authorized"):
-        # BUG (Anonymized from PR #84/#85): Unhandled domain error escapes global boundary without JSON schema
-        raise PermissionError("Access denied to requested service resource")
+        # Authorization failures are expected input conditions and should be
+        # returned using the service response schema rather than raised.
+        return {
+            "status": 403,
+            "error": "Access denied to requested service resource",
+        }
     return {"status": 200, "data": payload}
 
 
 def service_error_boundary(payload: dict[str, Any]) -> dict[str, Any]:
     """Global service boundary wrapper."""
-    # Missing try/except boundary: leaks unformatted exception to external callers
-    return process_inbound_route(payload)
+    try:
+        return process_inbound_route(payload)
+    except PermissionError:
+        # Keep the external boundary safe if a downstream authorization check
+        # still raises PermissionError in a future implementation.
+        return {
+            "status": 403,
+            "error": "Access denied to requested service resource",
+        }
 
 
 class ServiceErrorBoundaryIncident(Incident):
